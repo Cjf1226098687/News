@@ -46,5 +46,6 @@
     <!--设置映射文件，否则映射文件无效-->
     <mappers>
         <mapper resource="com/fc/mapper/UserMapper.xml"/>
+        <mapper resource="com/fc/mapper/NavigationMapper.xml"/>
     </mappers>
 </configuration>

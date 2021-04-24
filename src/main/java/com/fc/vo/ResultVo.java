@@ -19,4 +19,15 @@ public class ResultVo {
         this.success = true;
         this.data = data;
     }
+
+    public static ResultVo fail(String message, Integer code) {
+        ResultVo resultVo = new ResultVo();
+
+        resultVo.setMessage(message);
+        resultVo.setCode(code);
+        resultVo.setSuccess(false);
+        resultVo.setData(null);
+
+        return resultVo;
+    }
 }

@@ -57,13 +57,8 @@ public class UserController {
             return new ResultVo("登录失败，账号或验证码错误", -1, false, null);
         }
 
-        // 获取Session
-        HttpSession session = request.getSession(true);
-
-        // 设置电话号码到Session中
-        session.setAttribute(String.valueOf(phone), phone);
-
-        System.out.println("Session设置的phone：" + phone);
+        // 后置拦截器无法在响应之后创建session，所以要在响应内容之前先创建
+        request.getSession(true);
 
         return new ResultVo(userVo);
     }
@@ -85,13 +80,8 @@ public class UserController {
             return new ResultVo("登录失败，账号或密码错误", -1, false, null);
         }
 
-        // 获取Session
-        HttpSession session = request.getSession(true);
-
-        // 设置电话号码到Session中
-        session.setAttribute(String.valueOf(phone), phone);
-
-        System.out.println("Session设置的phone：" + phone);
+        // 后置拦截器无法在响应之后创建session，所以要在响应内容之前先创建
+        request.getSession(true);
 
         return new ResultVo(userVo);
     }

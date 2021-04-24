@@ -33,6 +33,13 @@
 
         <!--登录拦截器-->
         <mvc:interceptor>
+            <mvc:mapping path="/user/login"/>
+            <mvc:mapping path="/user/loginByPassword"/>
+            <bean id="loginInterceptor" class="com.fc.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+
+        <!--JWT拦截器-->
+        <mvc:interceptor>
             <!--拦截的路径-->
             <mvc:mapping path="/**"/>
             <!--不拦截的路径-->

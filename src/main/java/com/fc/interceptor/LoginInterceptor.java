@@ -1,20 +1,17 @@
 package com.fc.interceptor;
 
-import com.fc.utils.JwtUtils;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.Map;
 
-public class LogoutInterceptor implements HandlerInterceptor {
+// 登录拦截器
+public class LoginInterceptor implements HandlerInterceptor {
 
     /**
-     * 后置拦截，退出登录方法执行完毕后执行
+     * 后置拦截，登录方法执行完毕后执行
      *
      * @param request 请求对象
      * @param response 响应对象
@@ -24,17 +21,14 @@ public class LogoutInterceptor implements HandlerInterceptor {
      */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        String phone = request.getParameter("phone");
 
-        // 获取session
+        // 获取Session
         HttpSession session = request.getSession(false);
 
-        Map<String, Object> claim = (Map<String, Object>) request.getAttribute("claim");
+        // 设置电话号码到Session中
+        session.setAttribute(String.valueOf(phone), phone);
 
-        String phone = (String) claim.get("phone");
-
-        System.out.println("退出登录拦截器：" + phone);
-
-        // 清除Session
-        session.removeAttribute(phone);
+        System.out.println("登录过滤器设置的phone：" + phone);
     }
 }

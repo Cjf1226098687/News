@@ -30,4 +30,15 @@ public class ResultVo {
 
         return resultVo;
     }
+
+    public static ResultVo success(String message, Integer code, Object data) {
+        ResultVo resultVo = new ResultVo();
+
+        resultVo.setMessage(message);
+        resultVo.setCode(code);
+        resultVo.setSuccess(true);
+        resultVo.setData(data);
+
+        return resultVo;
+    }
 }

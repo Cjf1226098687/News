@@ -7,4 +7,16 @@
     <select id="findAll" resultType="com.fc.bean.Navigation">
         select * from navigation
     </select>
+
+    <!--根据导航栏id查询对应的歌曲-->
+    <select id="findMusicsById" resultType="com.fc.vo.MusicVo">
+        select music.id, music.music_name, music.music_mp3_url, album_name, navigation_name, user.name as artistName from music
+        inner join album
+        on music.album_id = album.id
+        inner join navigation n
+        on music.navigation_id = n.id
+        inner join user
+        on user.id = music.artist_id
+        where n.id = #{id}
+    </select>
 </mapper>

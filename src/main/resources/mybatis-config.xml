@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--mybatis设置-->
+    <settings>
+        <!--启用二级缓存-->
+        <setting name="cacheEnabled" value="true"/>
+        <!--启用延时加载-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--启用驼峰命令-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--每种属性按需加载-->
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <!--允许多种结果集从一个单独的语句中返回-->
+        <setting name="multipleResultSetsEnabled" value="true"/>
+        <!--使用列标签代替列名-->
+        <setting name="useColumnLabel" value="true"/>
+        <!--允许插入数据中设置主键并返回-->
+        <setting name="useGeneratedKeys" value="true"/>
+        <!--设置默认执行器-->
+        <setting name="defaultExecutorType" value="SIMPLE"/>
+        <!--设置超时时间-->
+        <setting name="defaultStatementTimeout" value="25000"/>
+    </settings>
+
+    <!--pojo实体类别名-->
+    <typeAliases>
+    </typeAliases>
+
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!--自动检测当前的数据库链接，指定mysql-->
+            <property name="helperDialect" value="mysql"/>
+
+            <!--分页合理化参数-->
+            <!--pageNum<=0 时会查询第一页， pageNum>pages （超过总数时），会查询最后一页-->
+            <property name="reasonable" value="true"/>
+
+            <!--通过 Mapper 接口参数来传递分页参数-->
+            <property name="supportMethodsArguments" value="true"/>
+        </plugin>
+    </plugins>
+
+    <!--设置映射文件，否则映射文件无效-->
+    <mappers>
+        <mapper resource="com/fc/mapper/UserMapper.xml"/>
+    </mappers>
+</configuration>

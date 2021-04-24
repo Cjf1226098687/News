@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="error">
+    <!--先定义所有的appender -->
+    <appenders>
+        <!--这个输出控制台的配置 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!--输出日志的格式 -->
+            <PatternLayout
+                    pattern=" %highlight{%-5level %L - %msg%xEx%n}{FATAL=red, ERROR=red, WARN=yellow, INFO=green, DEBUG=cyan,TRACE=blue}"/>
+        </Console>
+    </appenders>
+
+    <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
+    <loggers>
+        <Logger name="com.fc.dao" level="TRACE" additivity="false">
+            <AppenderRef ref="asyncsql" />
+        </Logger>
+        <root level="debug">
+            <appender-ref ref="RollingFile"/>
+            <appender-ref ref="Console"/>
+            <appender-ref ref="ERROR"/>
+            <appender-ref ref="log"/>
+        </root>
+    </loggers>
+</configuration>

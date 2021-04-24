@@ -21,7 +21,7 @@ public class JwtUtils {
     // token头
     private static final HashMap<String, Object> HEADER = new HashMap<>();
     // token签名
-    private static final String SIGN;
+    private static final String SIGN = "QwErTyUi";
 
     // 获取SIGN的方法
     public static String getSIGN() {
@@ -32,19 +32,7 @@ public class JwtUtils {
     static {
         HEADER.put("alg", ALG);
         HEADER.put("typ", TYP);
-        SIGN = "QwErTyUi";
         ALGORITHM = Algorithm.HMAC256(SIGN);
-    }
-
-    /**
-     * 获取Algorithm
-     * 主要用于根据反射修改后的盐值获取Algorithm
-     *
-     * @return Algorithm
-     */
-    public static Algorithm getAlgorithm() {
-        System.out.println("JWT中获取Algorithm所用到的盐：" + SIGN);
-        return Algorithm.HMAC256(SIGN);
     }
 
     /**
@@ -64,7 +52,7 @@ public class JwtUtils {
                 // 设置载荷
                 withClaim("claim", claim).
                 // 设置签名
-                sign(getAlgorithm());
+                sign(ALGORITHM);
     }
 
     /**
@@ -75,7 +63,7 @@ public class JwtUtils {
      */
     public static DecodedJWT parseToken(String token) {
         // 获取token
-        return JWT.require(getAlgorithm()).build().verify(token);
+        return JWT.require(ALGORITHM).build().verify(token);
     }
 
     /**

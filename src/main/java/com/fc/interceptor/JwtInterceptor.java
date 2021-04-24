@@ -10,6 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ import java.util.Map;
 public class JwtInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("JWT拦截器");
+        System.out.println("JWT拦截器执行");
 
         // 从请求参数中获取token
         String token = request.getParameter("token");
@@ -51,7 +52,21 @@ public class JwtInterceptor implements HandlerInterceptor {
                 // 设置到域对象中
                 request.setAttribute("claim", claim);
 
-                return true;
+                // 从claim中获取电话号码
+                String result = String.valueOf(claim.get("phone"));
+
+                // 获取Session
+                HttpSession session = request.getSession(false);
+
+                System.out.println("Session获取的phone：" + result);
+
+                // 如果session中存储的有这个id，那就说明登录成功
+                if (session.getAttribute(result) != null) {
+                    // 放行
+                    return true;
+                } else {
+                    map.put("message", "token已失效，请重新登录");
+                }
 
                 // 抛出对应的异常
             } catch (AlgorithmMismatchException e) {

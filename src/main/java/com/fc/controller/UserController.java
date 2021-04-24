@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Map;
+
 
 @Controller
 @RequestMapping("user")
@@ -45,13 +49,21 @@ public class UserController {
      */
     @PostMapping("login")
     @ResponseBody
-    public ResultVo loginByCode(String phone, String code) {
+    public ResultVo loginByCode(String phone, String code, HttpServletRequest request) {
 
         UserVo userVo = userService.login(phone, code);
 
         if (userVo == null) {
             return new ResultVo("登录失败，账号或验证码错误", -1, false, null);
         }
+
+        // 获取Session
+        HttpSession session = request.getSession(true);
+
+        // 设置电话号码到Session中
+        session.setAttribute(String.valueOf(phone), phone);
+
+        System.out.println("Session设置的phone：" + phone);
 
         return new ResultVo(userVo);
     }
@@ -65,13 +77,21 @@ public class UserController {
      */
     @PostMapping("loginByPassword")
     @ResponseBody
-    public ResultVo loginByPassword(String phone, String password) {
+    public ResultVo loginByPassword(String phone, String password, HttpServletRequest request) {
 
         UserVo userVo = userService.loginByPassword(phone, password);
 
         if (userVo == null) {
             return new ResultVo("登录失败，账号或密码错误", -1, false, null);
         }
+
+        // 获取Session
+        HttpSession session = request.getSession(true);
+
+        // 设置电话号码到Session中
+        session.setAttribute(String.valueOf(phone), phone);
+
+        System.out.println("Session设置的phone：" + phone);
 
         return new ResultVo(userVo);
     }

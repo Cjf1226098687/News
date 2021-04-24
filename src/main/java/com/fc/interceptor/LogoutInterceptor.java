@@ -6,8 +6,10 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Map;
 
 public class LogoutInterceptor implements HandlerInterceptor {
 
@@ -23,22 +25,19 @@ public class LogoutInterceptor implements HandlerInterceptor {
      */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        Class<?> clazz = Class.forName("com.fc.utils.JwtUtils");
-
-        Field sign = clazz.getDeclaredField("SIGN");
-
-        sign.setAccessible(true);
-
-        Field modifiers = Field.class.getDeclaredField("modifiers");
-
-        modifiers.setAccessible(true);
-
-        modifiers.set(sign, sign.getModifiers() & ~Modifier.FINAL);
-
-        // 使用工具类生成8位随机字符串并修改盐值
-        sign.set(null, RandomStringUtils.randomAlphanumeric(8));
 
         System.out.println("退出登录拦截器");
-        System.out.println("重新生成的盐：" + JwtUtils.getSIGN());
+
+        // 获取session
+        HttpSession session = request.getSession(false);
+
+        Map<String, Object> claim = (Map<String, Object>) request.getAttribute("claim");
+
+        String phone = (String) claim.get("phone");
+
+        System.out.println("退出登录时Session获取的phone：" + phone);
+
+        // 清楚Session
+        session.removeAttribute(phone);
     }
 }

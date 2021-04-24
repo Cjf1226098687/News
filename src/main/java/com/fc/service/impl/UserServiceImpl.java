@@ -63,6 +63,9 @@ public class UserServiceImpl implements UserService {
 
         Map<String, Object> map = new HashMap<>();
 
+        // 添加电话，方便拦截器进行获取
+        map.put("phone", phone);
+
         String token = JwtUtils.getToken(map, 30);
 
         UserAuthVo userAuthVo = new UserAuthVo(userVo);
@@ -108,6 +111,9 @@ public class UserServiceImpl implements UserService {
         }
 
         Map<String, Object> map = new HashMap<>();
+
+        // 添加电话，方便拦截器进行获取
+        map.put("phone", phone);
 
         String token = JwtUtils.getToken(map, 30);
 

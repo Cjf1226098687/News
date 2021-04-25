@@ -49,5 +49,6 @@
         <mapper resource="com/fc/mapper/NavigationMapper.xml"/>
         <mapper resource="com/fc/mapper/CarouselMapper.xml"/>
         <mapper resource="com/fc/mapper/MusicMapper.xml"/>
+        <mapper resource="com/fc/mapper/RecommendMapper.xml"/>
     </mappers>
 </configuration>

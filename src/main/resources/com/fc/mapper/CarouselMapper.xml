@@ -6,4 +6,14 @@
     <select id="findAll" resultType="com.fc.vo.CarouselVo">
         select * from carousel
     </select>
+
+    <!--根据轮播图中的id获取对应的歌曲-->
+    <select id="findMusicById" parameterType="java.lang.Integer" resultType="com.fc.vo.MusicVo">
+        select carousel.id, m.music_name, m.music_mp3_url, album_name, user.name as artistName, navigation_name from carousel
+        inner join music m on carousel.music_id = m.id
+        inner join album a on m.album_id = a.id
+        inner join navigation n on m.navigation_id = n.id
+        inner join user on user.id = m.artist_id
+        where carousel.music_id = #{musicId}
+    </select>
 </mapper>

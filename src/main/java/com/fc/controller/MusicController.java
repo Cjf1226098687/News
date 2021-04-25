@@ -18,6 +18,11 @@ public class MusicController {
 
     @PostMapping("findByKeyword")
     public ResultVo findByKeyword(String keyword) {
+
+        if (keyword == null) {
+            return ResultVo.fail("关键字不能为空", 500);
+        }
+
         List<MusicVo> list = musicService.findByKeyword(keyword);
 
         return new ResultVo(list);

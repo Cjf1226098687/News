@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fc.dao.MusicDao">
+    <cache/>
+
+    <select id="findByKeyword" parameterType="java.lang.String" resultType="com.fc.vo.MusicVo">
+        select music.id, music.music_name, album_name, navigation_name, user.name as artistName, music.music_mp3_url
+        from music
+        inner join album a on music.album_id = a.id
+        inner join navigation n on music.navigation_id = n.id
+        inner join user on user.id = music.artist_id
+        where music.music_name like #{keyword}
+    </select>
+</mapper>

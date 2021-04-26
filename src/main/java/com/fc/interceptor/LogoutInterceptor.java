@@ -1,6 +1,7 @@
 package com.fc.interceptor;
 
 import com.fc.utils.JwtUtils;
+import com.fc.utils.RedisUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -24,17 +25,10 @@ public class LogoutInterceptor implements HandlerInterceptor {
      */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-
-        // 获取session
-        HttpSession session = request.getSession(false);
-
         Map<String, Object> claim = (Map<String, Object>) request.getAttribute("claim");
 
         String phone = (String) claim.get("phone");
 
-        System.out.println("退出登录拦截器：" + phone);
-
-        // 清除Session
-        session.removeAttribute(phone);
+        RedisUtils.delete(phone);
     }
 }

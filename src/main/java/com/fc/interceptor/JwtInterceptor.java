@@ -6,6 +6,7 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fc.utils.JwtUtils;
+import com.fc.utils.RedisUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,13 +56,9 @@ public class JwtInterceptor implements HandlerInterceptor {
                 // 从claim中获取电话号码
                 String result = String.valueOf(claim.get("phone"));
 
-                // 获取Session
-                HttpSession session = request.getSession(false);
+                String phone = RedisUtils.get(result);
 
-                System.out.println("Session获取的phone：" + result);
-
-                // 如果session中存储的有这个id，那就说明登录成功
-                if (session.getAttribute(result) != null) {
+                if (phone != null) {
                     // 放行
                     return true;
                 } else {
@@ -78,6 +75,7 @@ public class JwtInterceptor implements HandlerInterceptor {
             } catch (TokenExpiredException e) {
                 map.put("message", "token已过期");
             } catch (Exception e) {
+                e.printStackTrace();
                 map.put("message", "token异常，访问被终止");
             }
 

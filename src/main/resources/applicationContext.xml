@@ -67,4 +67,34 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.fc.dao"/>
     </bean>
+
+    <!--引入redis.properties配置文件-->
+    <context:property-placeholder location="classpath:/redis.properties" ignore-unresolvable="true" />
+
+    <!--Redis数据库配置-->
+    <bean id="redisStandaloneConfiguration" class="org.springframework.data.redis.connection.RedisStandaloneConfiguration">
+        <property name="database" value="${redis.database}"/>
+        <property name="port" value="${redis.port}"/>
+        <!--<property name="password" value="${redis.password}"/>-->
+        <property name="hostName" value="${redis.host}"/>
+    </bean>
+
+    <!--配置Jedis连接池-->
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <constructor-arg name="standaloneConfig" ref="redisStandaloneConfiguration"/>
+        <property name="usePool" value="true"/>
+    </bean>
+
+    <!--配置Redis模板对象用来操作Redis数据库-->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory"/>
+    </bean>
+    <bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory"/>
+    </bean>
+
+    <!--配置Redis工具类-->
+    <bean id="redisUtils" class="com.fc.utils.RedisUtils">
+        <property name="template" ref="stringRedisTemplate"/>
+    </bean>
 </beans>

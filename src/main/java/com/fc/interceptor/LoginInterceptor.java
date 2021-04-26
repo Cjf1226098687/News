@@ -1,5 +1,6 @@
 package com.fc.interceptor;
 
+import com.fc.utils.RedisUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,12 +24,6 @@ public class LoginInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         String phone = request.getParameter("phone");
 
-        // 获取Session
-        HttpSession session = request.getSession(false);
-
-        // 设置电话号码到Session中
-        session.setAttribute(String.valueOf(phone), phone);
-
-        System.out.println("登录过滤器设置的phone：" + phone);
+        RedisUtils.set(phone, phone);
     }
 }

@@ -3,6 +3,7 @@ package com.fc.controller;
 import com.fc.bean.User;
 import com.fc.bean.UserInfo;
 import com.fc.service.UserService;
+import com.fc.utils.RedisUtils;
 import com.fc.vo.ResultVo;
 import com.fc.vo.UserInfoVo;
 import com.fc.vo.UserVo;
@@ -57,9 +58,6 @@ public class UserController {
             return new ResultVo("登录失败，账号或验证码错误", -1, false, null);
         }
 
-        // 后置拦截器无法在响应之后创建session，所以要在响应内容之前先创建
-        request.getSession(true);
-
         return new ResultVo(userVo);
     }
 
@@ -79,9 +77,6 @@ public class UserController {
         if (userVo == null) {
             return new ResultVo("登录失败，账号或密码错误", -1, false, null);
         }
-
-        // 后置拦截器无法在响应之后创建session，所以要在响应内容之前先创建
-        request.getSession(true);
 
         return new ResultVo(userVo);
     }

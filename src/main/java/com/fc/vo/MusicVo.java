@@ -15,5 +15,6 @@ public class MusicVo implements Serializable {
     private String albumName;
     private String artistName;
     private String musicMp3Url;
+    private String albumPicUrl;
     private String navigationName;
 }

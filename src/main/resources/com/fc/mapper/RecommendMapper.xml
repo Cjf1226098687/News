@@ -4,7 +4,7 @@
     <cache/>
 
     <select id="findAll" resultType="com.fc.vo.MusicVo">
-        select music.id, music.music_name, album_name, navigation_name, user.name as artistName, music.music_mp3_url
+        select music.id, music.music_name, album_name, album_pic_url, navigation_name, user.name as artistName, music.music_mp3_url
         from recommend r
         inner join music on music.id = r.music_id
         inner join album a on music.album_id = a.id

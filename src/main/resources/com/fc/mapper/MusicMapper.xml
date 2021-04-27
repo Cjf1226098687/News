@@ -4,7 +4,7 @@
     <cache/>
 
     <select id="findByKeyword" parameterType="java.lang.String" resultType="com.fc.vo.MusicVo">
-        select music.id, music.music_name, album_name, navigation_name, user.name as artistName, music.music_mp3_url
+        select music.id, music.music_name, album_name, album_pic_url, navigation_name, user.name as artistName, music.music_mp3_url
         from music
         inner join album a on music.album_id = a.id
         inner join navigation n on music.navigation_id = n.id
